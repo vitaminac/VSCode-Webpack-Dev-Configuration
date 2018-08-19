@@ -16,7 +16,14 @@
                 "webpack:///./*": "${webRoot}/../*",
                 "webpack:///src/*": "${webRoot}/../src/*",
                 "webpack:///./~/*": "${webRoot}/../node_modules/*"
-            }
+            },
+            "runtimeExecutable": "/snap/bin/chromium",
+            "runtimeArgs": [
+                "--new-window",
+                "-user-data-dir=/${workspaceFolder}/DevProfile",
+                "--remote-debugging-port=9222",
+                "--disable-background-networking"
+            ]
         }
     ]
 }
