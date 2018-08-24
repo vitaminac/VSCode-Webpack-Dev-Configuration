@@ -8,7 +8,10 @@ module.exports = {
     devServer: {
         contentBase: './dist',
         compress: true,
-        port: 3000
+        port: 3000,
+        proxy: {
+            "/api": "http://localhost:9000"
+        }
     },
     mode: 'development',
     output: {
