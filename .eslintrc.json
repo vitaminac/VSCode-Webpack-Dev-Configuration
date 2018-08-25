@@ -5,6 +5,7 @@
         "node": true,
         "greasemonkey": true,
         "jquery": true,
-        "es6": true
+        "es6": true,
+        "amd": true
     }
 }
