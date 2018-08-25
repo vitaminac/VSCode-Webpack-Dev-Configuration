@@ -1,14 +1,25 @@
 <!DOCTYPE html>
+
 <html>
 
 <head>
   <meta charset="UTF-8">
   <title>Development</title>
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
   <script type="text/javascript" src="/main.bundle.js"></script>
 </head>
 
 <body>
+  <form action="/api/upload" method="post" enctype="multipart/form-data">
+    <input type="file" name="upload"><br>
+    <input type="submit">
+  </form>
   <button onclick="main()">Test</button>
+
+  <div name="websocket">
+    <button onclick="websocket.open()">open a websocket</button>
+    <button onclick="websocket.send()">send something</button>
+  </div>
 </body>
 
 </html>
