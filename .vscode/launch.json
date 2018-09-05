@@ -11,6 +11,12 @@
             "program": "${file}"
         },
         {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch Server",
+            "program": "${workspaceFolder}/index.js"
+        },
+        {
             "name": "Launch Chrome",
             "type": "chrome",
             "request": "launch",
