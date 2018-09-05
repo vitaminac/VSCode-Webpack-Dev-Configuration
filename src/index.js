@@ -3,3 +3,5 @@ window.main = function () {
 }
 
 window.websocket = require("./socket.js");
+
+require("./dplayer-config.js").load();
