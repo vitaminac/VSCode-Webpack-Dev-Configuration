@@ -401,56 +401,101 @@ function initializeWindowsMenuPlugin($) {
         }
         var TAB_MENU_ID = "tabs_menu";
 
+
+
         $.fn.makeMenu = function (backendApi, list) {
             var container = this[0];
             var dropdown = $('<div class="dropdown pull-right" style = "position: absolute; right: 0px; bottom: 5px; display: inline; background: white;"><a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="hiddenTabs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="fa fa-chevron-down"></i></a><div class="dropdown-menu" aria-labelledby="hiddenTabs" id=' + TAB_MENU_ID + '></div></div>');
             $(container).append(dropdown);
-            var containerWidth = container.clientWidth;
-            var nav_tabs = $(container).children(".nav-tabs");
-            var accumulatedWidth = 0;
-            var lastElement;
-            var lastIndex;
-            $(nav_tabs).children().each(function (index, element) {
+            var anchor = undefined;
+            function calculateMaxAvailableWidth() {
+                var width = container.clientWidth - dropdown.outerWidth();
+                return anchor ? width - $(anchor).outerWidth() : width
+            }
+            var nav_tabs_bar = $(container).children(".nav-tabs");
+            var nav_tabs = nav_tabs_bar.children();
+            var hiddenTabsSet = new Set(list);
+
+            var toggleOptions = $('<i class="fa fa-cog"></i>');
+            $(dropdown).append(toggleOptions);
+
+            function reRenderTabs() {
+                var availableWidth = calculateMaxAvailableWidth();
+                nav_tabs.each(function (index, element) {
+                    var tabId = $(element).find("a").attr("href");
+                    $(element).show();
+                    if (hiddenTabsSet.has(tabId)) {
+                        $(element).hide();
+                    } else if (availableWidth < element.clientWidth) {
+                        availableWidth = 0;
+                        $(element).hide();
+                    } else {
+                        availableWidth -= element.clientWidth;
+                    }
+                });
+            }
+
+            nav_tabs.each(function (index, element) {
                 var tabId = $(element).find("a").attr("href");
-                accumulatedWidth += element.clientWidth;
-                if (list.includes(tabId) || accumulatedWidth > containerWidth) {
-                    $(element).hide();
-                } else {
-                    lastIndex = index;
-                    lastElement = element;
-                }
 
                 function listner() {
-                    if (index > lastIndex) {
-                        $(element).detach().insertBefore(lastElement);
-                        $(element).show();
-                        $(lastElement).hide();
-                        lastElement = element;
+                    if (anchor) {
+                        $(anchor).remove();
                     }
-
-                    $(element).click();
-                    $(element).children().tab("show");
-                    $(element).children().click();
+                    anchor = $(element).clone();
+                    $(anchor).css({
+                        "float": "right",
+                        "right": $(dropdown).outerWidth() + "px"
+                    });
+                    nav_tabs_bar.append(anchor);
+                    if (anchor) {
+                        $(anchor).show();
+                        $(anchor).click();
+                        $(anchor).children().click();
+                        $(anchor).children().tab("show");
+                    }
+                    reRenderTabs();
                 }
                 var submenuTemplate = $(createTemplete($(element).text(), listner, function () {
-                    $(element).show();
+                    hiddenTabsSet.delete(tabId);
+                    reRenderTabs();
                     backendApi.show(tabId);
                 }, function () {
-                    $(element).hide();
+                    hiddenTabsSet.add(tabId);
+                    reRenderTabs();
                     backendApi.hide(tabId);
-                }, list.includes(tabId)));
-                if (list.includes(tabId)) {
+                }, hiddenTabsSet.has(tabId)));
+                if (hiddenTabsSet.has(tabId)) {
                     submenuTemplate.click();
                 }
                 $("#" + TAB_MENU_ID).append(submenuTemplate);
             });
 
+            reRenderTabs();
+
             // el ultimo elemento tiene css muy raro, solucion agrega primero y luego elimina
             applyCSS();
 
-            // $("#tabs_menu").click(function (e) {
-            //     e.stopPropagation();
-            // });
+            $(".toggle").hide();
+
+            $(toggleOptions).click(function () {
+                if ($(".toggle").is(":hidden")) {
+                    $(".toggle").show();
+                    $(this).css("color", "red");
+                } else {
+                    $(".toggle").hide();
+                    $(this).css("color", "");
+                }
+            });
+
+            $(window).resize(function () {
+                reRenderTabs();
+            });
+
+            $(document).on('click', '#' + TAB_MENU_ID + '.dropdown-menu', function (e) {
+                e.stopPropagation();
+                return false;
+            });
         }
     })($);
 }
