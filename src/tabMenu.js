@@ -417,7 +417,11 @@ function initializeWindowsMenuPlugin($) {
             var hiddenTabsSet = new Set(list);
 
             var toggleOptions = $('<i class="fa fa-cog"></i>');
-            $(dropdown).append(toggleOptions);
+            toggleOptions.css({
+                "margin-left": "5px",
+                "padding": "5px"
+            });
+            $("#" + TAB_MENU_ID).append(toggleOptions);
 
             function reRenderTabs() {
                 var availableWidth = calculateMaxAvailableWidth();
@@ -442,17 +446,24 @@ function initializeWindowsMenuPlugin($) {
                     if (anchor) {
                         $(anchor).remove();
                     }
-                    anchor = $(element).clone();
-                    $(anchor).css({
-                        "float": "right",
-                        "right": $(dropdown).outerWidth() + "px"
-                    });
-                    nav_tabs_bar.append(anchor);
-                    if (anchor) {
-                        $(anchor).show();
-                        $(anchor).click();
-                        $(anchor).children().click();
-                        $(anchor).children().tab("show");
+                    if ($(element).is(":hidden")) {
+                        anchor = $(element).clone();
+                        $(anchor).css({
+                            "float": "right",
+                            "right": $(dropdown).outerWidth() + "px"
+                        });
+                        nav_tabs_bar.append(anchor);
+                        if (anchor) {
+                            $(anchor).show();
+                            $(anchor).click();
+                            $(anchor).children().click();
+                            $(anchor).children().tab("show");
+                        }
+                    } else {
+                        // buscar la forma de saber que la pestaña está activa y mostrarlo en su propio sitio
+                        $(element).click();
+                        $(element).children().click();
+                        $(element).children().tab("show");
                     }
                     reRenderTabs();
                 }
@@ -478,6 +489,7 @@ function initializeWindowsMenuPlugin($) {
 
             $(".toggle").hide();
 
+            debugger;
             $(toggleOptions).click(function () {
                 if ($(".toggle").is(":hidden")) {
                     $(".toggle").show();
@@ -493,6 +505,7 @@ function initializeWindowsMenuPlugin($) {
             });
 
             $(document).on('click', '#' + TAB_MENU_ID + '.dropdown-menu', function (e) {
+                debugger;
                 e.stopPropagation();
                 return false;
             });
