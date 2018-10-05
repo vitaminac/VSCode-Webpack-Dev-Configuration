@@ -405,6 +405,10 @@ function initializeWindowsMenuPlugin($) {
 
         $.fn.makeMenu = function (backendApi, list) {
             var container = this[0];
+
+            // evitar que haya dos dropdown
+            $(container).children(".dropdown").remove();
+
             var dropdown = $('<div class="dropdown pull-right" style = "position: absolute; right: 0px; bottom: 5px; display: inline; background: white;"><a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="hiddenTabs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="fa fa-chevron-down"></i></a><div class="dropdown-menu" aria-labelledby="hiddenTabs" id=' + TAB_MENU_ID + '></div></div>');
             $(container).append(dropdown);
             var anchor = undefined;
