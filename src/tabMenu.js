@@ -489,7 +489,6 @@ function initializeWindowsMenuPlugin($) {
 
             $(".toggle").hide();
 
-            debugger;
             $(toggleOptions).click(function () {
                 if ($(".toggle").is(":hidden")) {
                     $(".toggle").show();
@@ -505,7 +504,6 @@ function initializeWindowsMenuPlugin($) {
             });
 
             $(document).on('click', '#' + TAB_MENU_ID + '.dropdown-menu', function (e) {
-                debugger;
                 e.stopPropagation();
                 return false;
             });
