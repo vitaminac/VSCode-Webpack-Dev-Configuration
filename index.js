@@ -1,8 +1,12 @@
 const socket = require("./server/socket.js");
 const http = require("./server/http.js");
-const dplayer = require("./server/dplayer.js");
 
-const server = http.createServer([], [], "./static");
+const server = http.createServer([
+    {
+        pattern: "/upload",
+        handler: require("./server/upload.js")
+    }
+], [], "./static");
 socket.wrap(server);
 
 const PORT = process.env.PORT || 9000;

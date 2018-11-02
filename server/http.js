@@ -43,7 +43,7 @@ http.ServerResponse.prototype.sendError = function (code, message) {
 const middlewares = [function multipart(req, res, next) {
     if (req.method.toUpperCase() === "POST") {
         if (req.headers["content-type"].toLowerCase().trim().includes("multipart/form-data")) {
-            var output = fs.createWriteStream("../static/output", { flags: "w" });
+            var output = fs.createWriteStream(req.context.static + "/output", { flags: "w" });
             req.on("data", (chunk) => output.write(chunk));
             req.once("end", () => output.end());
         }
