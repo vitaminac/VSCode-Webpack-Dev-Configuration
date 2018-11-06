@@ -4,4 +4,6 @@ window.main = function () {
 
 window.websocket = require("./socket.js");
 
-require("./dplayer-config.js").load();
+require("./jqueryUpload.js");
+
+// require("./dplayer-config.js").load();
