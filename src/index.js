@@ -1,8 +1,8 @@
 Redox = require("./redox-html");
 
-class Form extends Redox.Component {
+class Test extends Redox.Component {
     render() {
-        return `<form action="/action_page.php">
+        return `<Form action="/action_page.php">
   First name:<br/>
   <Input type="text" name="firstname" value="Mickey"/>
   <br/>
@@ -10,10 +10,10 @@ class Form extends Redox.Component {
   <Input type = "text" name="lastname" value="Mouse" />
   <br/><br/>
   <Input type="submit" value="Submit" />
-</form>`;
+</Form>`;
     }
 }
 
-Redox.define(Form);
+Redox.define(Test);
 
-Redox.host(`<Form/>`, $("#redox"), window);
+Redox.host(`<Test/>`, $("#redox"), window);
