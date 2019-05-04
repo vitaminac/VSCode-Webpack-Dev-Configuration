@@ -19,11 +19,19 @@ class HTMLVoidElement extends HTMLComponent {
     }
 }
 
-class Input extends HTMLVoidElement {}
-
-class Form extends HTMLComponent {}
-
 define(function () {
-    Redox.define(Input, Form);
+    Redox.define(
+        class Text extends HTMLVoidElement {
+            render() {
+                return `<input type="text">`;
+            }
+        },
+        class Submit extends HTMLVoidElement {
+            render() {
+                return `<input type="submit">`;
+            }
+        },
+        class Form extends HTMLComponent {}
+    );
     return Redox;
 })
