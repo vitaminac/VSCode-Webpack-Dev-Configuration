@@ -1,6 +1,9 @@
 Redox = require("./redox");
-Redox.host({
-    html: function () {
+
+class Title extends Redox.Component {
+    render() {
         return `<h1>This is Redox init project</h1>`;
     }
-}, $("#redox"));
+}
+
+Redox.host(new Title(), $("#redox"));
