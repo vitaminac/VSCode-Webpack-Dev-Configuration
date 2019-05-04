@@ -1,4 +1,4 @@
-Redox = require("./redox-dom");
+const Redox = require("./redox-dom");
 
 class App extends Redox.Component {
     render() {
